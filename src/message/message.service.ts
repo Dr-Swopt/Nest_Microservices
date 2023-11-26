@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Observable, from } from 'rxjs';
+import { MessageServiceClient, StreamRequest, StreamResponse } from './message.interface';
 
 @Injectable()
-export class MessageService {
+export class MessageService implements MessageServiceClient{
     stream(data: StreamRequest): Observable<StreamResponse> {
         return new Observable<StreamResponse>(subscriber => {
           let count = 0;
@@ -22,14 +23,4 @@ export class MessageService {
       }
 }
 
-interface StreamRequest {
-    id: string,
-    message: any
-}
 
-interface StreamResponse {
-    id: string,
-    message: any
-}
-
-  

@@ -3,7 +3,7 @@ syntax = "proto3";
 package message;
 
 service MessageService {
-  rpc stream (StreamRequest) returns (stream StreamResponse) {}
+  rpc Stream (StreamRequest) returns (stream StreamResponse) {}
 }
 
 message StreamRequest {
