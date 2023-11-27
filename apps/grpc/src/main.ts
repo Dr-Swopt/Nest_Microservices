@@ -6,7 +6,7 @@ import { NestApplicationContextOptions } from '@nestjs/common/interfaces/nest-ap
 import { Logger } from '@nestjs/common';
 import { MESSAGE_PACKAGE_NAME } from '@app/common';
 
-const mainLogger = new Logger(`Main`);
+const mainLogger = new Logger(`GRPC Main`);
 
 async function bootstrap() {
   let configurations: NestApplicationContextOptions & MicroserviceOptions = {
@@ -14,6 +14,7 @@ async function bootstrap() {
     options: {
       package: MESSAGE_PACKAGE_NAME,
       protoPath: join(__dirname,'../message.proto'),
+      url: `localhost:50051`
     },
   }
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, configurations);

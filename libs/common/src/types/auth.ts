@@ -59,25 +59,29 @@ export interface UsersServiceClient {
   removeUser(request: FindOneUserDto): Observable<User>;
 
   queryUsers(request: Observable<PaginationDto>): Observable<Users>;
+
+  streaming(request: Empty): Observable<User>
 }
 
 export interface UsersServiceController {
   createUser(request: CreateUserDto): Promise<User> | Observable<User> | User;
-
+  
   findAllUsers(request: Empty): Promise<Users> | Observable<Users> | Users;
-
+  
   findOneUser(request: FindOneUserDto): Promise<User> | Observable<User> | User;
-
+  
   updateUser(request: UpdateUserDto): Promise<User> | Observable<User> | User;
-
+  
   removeUser(request: FindOneUserDto): Promise<User> | Observable<User> | User;
-
+  
   queryUsers(request: Observable<PaginationDto>): Observable<Users>;
+
+  streaming(request: Empty): Observable<User>
 }
 
 export function UsersServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["createUser", "findAllUsers", "findOneUser", "updateUser", "removeUser"];
+    const grpcMethods: string[] = ["createUser", "findAllUsers", "findOneUser", "updateUser", "removeUser", "streaming"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("UsersService", method)(constructor.prototype[method], method, descriptor);

@@ -1,17 +1,15 @@
 import { Observable } from 'rxjs';
 import { Controller } from '@nestjs/common';
-import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { MessageService } from './message.service';
-import { StreamRequest, StreamResponse } from './message.interface';
-import { Metadata, ServerReadableStream } from '@grpc/grpc-js';
+import { MessageServiceController, MessageServiceControllerMethods, StreamRequest, StreamResponse } from '@app/common';
 
 @Controller()
-export class MessageController {
+@MessageServiceControllerMethods()
+export class MessageController implements MessageServiceController {
   constructor(private messageService: MessageService) { }
 
-  @GrpcStreamMethod()
-  stream(data: StreamRequest, metadata: Metadata, call: ServerReadableStream<any, any>): Observable<StreamResponse> {
-    return this.messageService.stream(data);
+  stream(request: StreamRequest): Observable<StreamResponse> {
+    return this.messageService.stream(request);
   }
 }
 

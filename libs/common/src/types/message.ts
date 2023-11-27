@@ -6,12 +6,12 @@ export const messageProtobufPackage = "message";
 
 export interface StreamRequest {
     id: string;
-    messsage: string;
+    message: string;
 }
 
 export interface StreamResponse {
     id: string;
-    messsage: string;
+    message: string;
 }
 
 export const MESSAGE_PACKAGE_NAME = "message";
@@ -26,11 +26,16 @@ export interface MessageServiceController {
 
 export function MessageServiceControllerMethods() {
     return function (constructor: Function) {
-        const grpcStreamMethods: string[] = ["Stream"];
-        for (const method of grpcStreamMethods) {
+        const grpcMethods: string[] = ["stream"];
+        for (const method of grpcMethods) {
             const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-            GrpcStreamMethod("MessageService", method)(constructor.prototype[method], method, descriptor);
+            GrpcMethod("MessageService", method)(constructor.prototype[method], method, descriptor);
         }
+        // const grpcStreamMethods: string[] = ["stream"];
+        // for (const method of grpcStreamMethods) {
+        //     const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+        //     GrpcStreamMethod("MessageService", method)(constructor.prototype[method], method, descriptor);
+        // }
     };
 }
 
