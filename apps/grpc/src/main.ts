@@ -4,19 +4,25 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { NestApplicationContextOptions } from '@nestjs/common/interfaces/nest-application-context-options.interface';
 import { Logger } from '@nestjs/common';
+import { MESSAGE_PACKAGE_NAME } from '@app/common';
+
+const mainLogger = new Logger(`Main`);
 
 async function bootstrap() {
   let configurations: NestApplicationContextOptions & MicroserviceOptions = {
     transport: Transport.GRPC,
     options: {
-      package: 'message',
-      protoPath: join(__dirname, './message/message.proto'),
+      package: MESSAGE_PACKAGE_NAME,
+      protoPath: join(__dirname,'../message.proto'),
     },
   }
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, configurations);
 
   await app.listen().then(() => {
-    Logger.log(`GRPC server is listening... `)
+    mainLogger.log(`GRPC server is listening... `)
+  }).catch(() => { 
+    throw new Error(`GRPC server failed to start`)
   })
 }
+
 bootstrap();
