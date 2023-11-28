@@ -37,13 +37,13 @@
         "watchAssets": true
       }
     },
-    "auth": {
+    "grpc-client": {
       "type": "application",
-      "root": "apps/auth",
+      "root": "apps/grpc-client",
       "entryFile": "src/main",
       "sourceRoot": "./",
       "compilerOptions": {
-        "tsConfigPath": "apps/auth/tsconfig.app.json",
+        "tsConfigPath": "apps/grpc-client/tsconfig.app.json",
         "assets": [
           "proto/*.proto"
         ],

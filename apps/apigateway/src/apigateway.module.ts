@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { GeneralModule } from './general/general.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
-  imports: [GeneralModule],
+  imports: [MessageModule], 
   controllers: [],
   providers: [],
 })

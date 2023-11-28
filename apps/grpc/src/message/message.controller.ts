@@ -1,12 +1,18 @@
 import { Observable } from 'rxjs';
 import { Controller } from '@nestjs/common';
 import { MessageService } from './message.service';
-import { MessageServiceController, MessageServiceControllerMethods, StreamRequest, StreamResponse } from '@app/common';
+import { Check, MessageServiceController, MessageServiceControllerMethods, StreamRequest, StreamResponse } from '@app/common';
 
 @Controller()
 @MessageServiceControllerMethods()
 export class MessageController implements MessageServiceController {
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService) {
+  }
+
+  check(check: Check): Check {
+    console.log(`Received check request: ${check.message}`)
+    return this.messageService.check(check)
+  }
 
   stream(request: StreamRequest): Observable<StreamResponse> {
     return this.messageService.stream(request);

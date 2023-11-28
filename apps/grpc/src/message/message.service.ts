@@ -1,36 +1,48 @@
-import { MessageServiceClient, StreamRequest, StreamResponse } from '@app/common';
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { Observable, from } from 'rxjs';
+import { Check, MESSAGE_SERVICE_NAME, MessageLog, MessageServiceClient, StreamRequest, StreamResponse } from '@app/common';
+import { MESSAGE_SERVICE } from '@app/common/types/constant';
+import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { ClientGrpc } from '@nestjs/microservices';
+import { readFileSync } from 'fs';
+import { Observable, Subject, from } from 'rxjs';
 
 @Injectable()
-export class MessageService implements MessageServiceClient, OnModuleInit {
+export class MessageService implements OnModuleInit {
   private logger = new Logger(`MessageService`)
+  private messagesJSON: any = readFileSync('payload.json')
+  private parsedMessages: MessageLog[] = JSON.parse(this.messagesJSON) // load the fake messages generated for this trial 
+  private messageService: MessageServiceClient;
 
-  constructor() {
-    // logic here
-  }
-  
+  constructor(@Inject(MESSAGE_SERVICE) private messageClient: ClientGrpc) { }
+
   onModuleInit() {
-    // logic here
+    this.messageService = this.messageClient.getService<MessageServiceClient>(MESSAGE_SERVICE_NAME)
   }
 
-  stream(data: StreamRequest): Observable<StreamResponse> {
-    this.logger.log(`Returning stream for client...`)
-    return new Observable<StreamResponse>(subscriber => {
-      let count = 0;
-      const intervalId = setInterval(() => {
-        subscriber.next({
-          id: `id-${count}`,
-          message: `${data.message} Message ${count}`
-        });
-        count++;
-      }, 1000); // Sends a new message every 1 second
+  check(check: Check): Check {
+    this.logger.log(`Received check request: ${check.message}`)
+    let response: Check = {
+      message: `I am the main GRPC publisher!`
+    }
+    return response
+  }
 
-      // Handle unsubscription
-      return () => {
+  stream(request: StreamRequest): Observable<StreamResponse> {
+    this.logger.log(`Received ${request.id}:: Preparing && Returning stream for client...`)
+    let result: Subject<StreamResponse> = new Subject()
+    let messages: MessageLog[] = this.parsedMessages
+    let count = 0
+    const intervalId = setInterval(() => {
+      result.next({
+        id: `${count}`,
+        message: JSON.stringify(messages[count])
+      });
+      count++;
+      if (count >= 10) {
         clearInterval(intervalId);
-      };
-    });
+        result.complete();
+      }
+    }, 500)
+    return result as Observable<StreamResponse>
   }
 }
 

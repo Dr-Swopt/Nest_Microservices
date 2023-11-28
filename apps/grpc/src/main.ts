@@ -6,7 +6,7 @@ import { NestApplicationContextOptions } from '@nestjs/common/interfaces/nest-ap
 import { Logger } from '@nestjs/common';
 import { MESSAGE_PACKAGE_NAME } from '@app/common';
 
-const mainLogger = new Logger(`GRPC Main`);
+const mainLogger = new Logger(`Grpc-Server-Publisher`);
 
 async function bootstrap() {
   let configurations: NestApplicationContextOptions & MicroserviceOptions = {
@@ -14,15 +14,16 @@ async function bootstrap() {
     options: {
       package: MESSAGE_PACKAGE_NAME,
       protoPath: join(__dirname,'../message.proto'),
-      url: `localhost:50051`
+      url: `localhost:3001`
     },
   }
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, configurations);
+  const app = await NestFactory.create(AppModule)
+  app.connectMicroservice<MicroserviceOptions>(configurations) // used for the case to cater for multiple microservice
 
-  await app.listen().then(() => {
-    mainLogger.log(`GRPC server is listening... `)
-  }).catch(() => { 
-    throw new Error(`GRPC server failed to start`)
+  app.startAllMicroservices().then(() => {
+    mainLogger.log(`Grpc server is listening`)
+  }).catch(() => {
+    throw new Error(`Grpc Server failed to start`)
   })
 }
 
