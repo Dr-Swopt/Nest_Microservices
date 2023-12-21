@@ -1,9 +1,11 @@
+/* eslint-disable prefer-const */
+/* eslint-disable prettier/prettier */
 import { Check, MESSAGE_SERVICE_NAME, MessageLog, MessageServiceClient, StreamRequest, StreamResponse } from '@app/common';
 import { MESSAGE_SERVICE } from '@app/common/types/constant';
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { readFileSync } from 'fs';
-import { Observable, Subject, from } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class MessageService implements OnModuleInit {
@@ -37,11 +39,11 @@ export class MessageService implements OnModuleInit {
         message: JSON.stringify(messages[count])
       });
       count++;
-      if (count >= 10) {
+      if (count >= 1000) {
         clearInterval(intervalId);
         result.complete();
       }
-    }, 500)
+    }, 1)
     return result as Observable<StreamResponse>
   }
 }

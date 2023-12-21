@@ -42,6 +42,5 @@ export class MessageController implements MessageServiceController {
   stream(StreamRequest: StreamRequest): Observable<StreamResponse> {
     this.logger.log(`Call message service...transferring stream request...`)
     return this.messageService.stream(StreamRequest)
-
   }
 }

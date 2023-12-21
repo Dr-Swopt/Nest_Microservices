@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Check, MESSAGE_SERVICE_NAME, MessageServiceClient, StreamRequest, StreamResponse } from '@app/common';
 import { MESSAGE_SERVICE } from '@app/common/types/constant';
 import { Inject, Injectable, Logger } from '@nestjs/common';

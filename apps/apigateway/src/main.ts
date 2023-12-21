@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable prefer-const */
 import { NestFactory } from '@nestjs/core';
 import { ApiGatewayModule } from './apigateway.module';
 import { Logger } from '@nestjs/common';

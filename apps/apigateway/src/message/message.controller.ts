@@ -15,26 +15,31 @@ export class MessageController implements MessageServiceController {
     let checkRequest: Check = {
       message: `Who are you`
     }
+    let result: any
     this.check(checkRequest).subscribe({
       next: res => {
+        result = res
         this.logger.log(res.message)
       },
       error: err => this.logger.error(err),
-      complete: () => this.logger.log(`Completed request`)
+      complete: () => {
+        this.logger.log(`CheckRequest: "${checkRequest.message} request`)
+        return result
+      }
     })
-
   }
 
   @Post(`stream`)
   streaming(@Body() streamRequest: StreamRequest) {
-    this.stream(streamRequest).subscribe({
+    let resultObs = this.stream(streamRequest).subscribe({
       next: message => {
         let msg: MessageLog = JSON.parse(message.message)
         console.log(msg.appData.msgId)
       },
       error: err => console.error(err),
-      complete: () => { }
+      complete: () => this.logger.log(`Stream Request for "${streamRequest.message}" Completed`)
     })
+    return resultObs
   }
 
   check(check: Check): Observable<Check> {
