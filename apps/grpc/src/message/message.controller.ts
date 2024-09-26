@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Observable } from 'rxjs';
 import { Controller } from '@nestjs/common';
 import { MessageService } from './message.service';
@@ -15,7 +16,8 @@ export class MessageController implements MessageServiceController {
   }
 
   stream(request: StreamRequest): Observable<StreamResponse> {
+    console.log(`Go through grpc MessageServiceControllerMethods..... <Stream>`)
     return this.messageService.stream(request);
   }
-}
 
+}

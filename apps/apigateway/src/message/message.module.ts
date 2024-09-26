@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { MESSAGE_PACKAGE_NAME } from "@app/common";
 import { Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
@@ -15,7 +16,7 @@ import { MESSAGE_SERVICE } from "@app/common/types/constant";
         options: {
           package: MESSAGE_PACKAGE_NAME,
           protoPath: join(__dirname, '../message.proto'),
-          url: `localhost:3002`
+          url: `localhost:4000`
         }
       }
     ])
@@ -23,4 +24,4 @@ import { MESSAGE_SERVICE } from "@app/common/types/constant";
   controllers: [MessageController],
   providers: [MessageService],
 })
-export class MessageModule {}
+export class MessageModule { }

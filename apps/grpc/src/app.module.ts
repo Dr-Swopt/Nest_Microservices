@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { MessageModule } from './message/message.module';
 
@@ -6,4 +7,4 @@ import { MessageModule } from './message/message.module';
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

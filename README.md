@@ -20,3 +20,8 @@ Run start startall.bat. IT will build and run all the applications within the ap
 ## Description
 
 So, the APIgateway, as the name implies will act as a gate way for clients to post request. The request will posted and the controller will then communiate with the service that will access the functions based on the definitions from the proto file. APIgateway itself will call nestjs microservice and act as a client. Then, the the grpc-client(app) will receive the function call from apigateway. (*all of these could be done in just APIgateway and gRPC server, but I wanted to test if a server can be both client and server concurrently. and Yes you can). So the grpc-client APP, is both a server that takes in client calls from apigateway APP, and further that request by acting as a client itself and making a grpc-client call to call the actual function in the grpc app that act as a server. In this test, there is a function in grpc to stream back a response of a {100} messages, so, when the client sends a post request to ask procure a stream response, it will then receive all the stream wrapped as an observable.
+
+## 
+
+-https://github.com/mguay22/nestjs-grpc
+Ripped off from this repo, for the grpc Sample

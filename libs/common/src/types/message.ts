@@ -17,16 +17,6 @@ export interface StreamResponse {
     message: string;
 }
 
-export interface MessageLog {
-    appLogLocId: string,
-    appData: {
-        msgId: string,
-        msgLogDateTime: string,
-        msgDateTime: string, 
-        msgTag: string[],
-        msgPayload: string
-    }
-}
 
 export const MESSAGE_PACKAGE_NAME = "message";
 

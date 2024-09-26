@@ -1,6 +1,8 @@
+/* eslint-disable prefer-const */
+/* eslint-disable prettier/prettier */
 import { Body, Controller, Get, Logger, Post } from '@nestjs/common';
 import { MessageService } from './message.service';
-import { Check, MessageLog, MessageServiceController, MessageServiceControllerMethods, StreamRequest, StreamResponse } from '@app/common';
+import { Check, Message, MessageServiceController, MessageServiceControllerMethods, StreamRequest, StreamResponse } from '@app/common';
 import { Observable } from 'rxjs';
 
 @Controller('message')
@@ -30,16 +32,22 @@ export class MessageController implements MessageServiceController {
   }
 
   @Post(`stream`)
-  streaming(@Body() streamRequest: StreamRequest) {
-    let resultObs = this.stream(streamRequest).subscribe({
-      next: message => {
-        let msg: MessageLog = JSON.parse(message.message)
-        console.log(msg.appData.msgId)
-      },
-      error: err => console.error(err),
-      complete: () => this.logger.log(`Stream Request for "${streamRequest.message}" Completed`)
+  streaming(@Body() streamRequest: StreamRequest): Observable<Message> {
+    return new Observable((observer) => {
+      this.logger.log(`Requesting some response from apigateway...`)
+      this.stream(streamRequest).subscribe({
+        next: message => {
+          // console.log(message)
+          observer.next({ id: message.id, payload: message.message })
+        },
+        error: err => console.error(err),
+        complete: () => {
+          this.logger.log(`Stream Request for "${streamRequest.message}" Completed`)
+          observer.complete()
+        }
+      })
     })
-    return resultObs
+
   }
 
   check(check: Check): Observable<Check> {
@@ -49,4 +57,5 @@ export class MessageController implements MessageServiceController {
   stream(request: StreamRequest): Observable<StreamResponse> {
     return this.messageService.stream(request)
   }
+
 }

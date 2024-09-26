@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable prefer-const */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
@@ -13,8 +15,8 @@ async function bootstrap() {
     transport: Transport.GRPC,
     options: {
       package: MESSAGE_PACKAGE_NAME,
-      protoPath: join(__dirname,'../message.proto'),
-      url: `localhost:3001`
+      protoPath: join(__dirname, '../message.proto'),
+      url: `localhost:4000`
     },
   }
   const app = await NestFactory.create(AppModule)

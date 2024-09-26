@@ -5,6 +5,7 @@ package message;
 service MessageService {
   rpc check (Check) returns (Check) {}
   rpc stream (StreamRequest) returns (stream StreamResponse) {}
+  rpc HandleMessage (StreamRequest) returns (stream StreamResponse) {}
 }
 
 message Check {
