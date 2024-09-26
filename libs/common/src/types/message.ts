@@ -1,43 +1,41 @@
-/* eslint-disable */
+/*  This Message constants and interfaces and function are mostly for GRPC microservice */
 import { GrpcMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
 export const messageProtobufPackage = "message";
 
-export interface Check {
-    message: string
-}
-export interface StreamRequest {
+export interface Request {
     id: string;
     message: string;
 }
 
-export interface StreamResponse {
+export interface Response {
     id: string;
     message: string;
 }
-
 
 export const MESSAGE_PACKAGE_NAME = "message";
 
 export interface MessageServiceClient {
-    check(check: Check): Observable<Check>
-    stream(request: StreamRequest): Observable<StreamResponse>;
+    returnResponse(request): Response
+    returnStreamResponse(request: Request): Observable<Response>;
+    bidirectionalStream(request: Observable<Request>): Observable<Response>
 }
 
-export interface MessageServiceController {
-    check(check: Check): Promise<Check> | Observable<Check> | Check;
-    stream(request: StreamRequest): Observable<StreamResponse>;
+export interface GrpcMessageServiceController {
+    returnResponse(request): Response
+    returnStreamResponse(request: Request): Observable<Response>;
+    bidirectionalStream(request: Observable<Request>): Observable<Response>
 }
 
-export function MessageServiceControllerMethods() {
+export function GrpcMessageServiceControllerMethods() {
     return function (constructor: Function) {
-        const grpcMethods: string[] = ["stream", "check"];
+        const grpcMethods: string[] = ["returnResponse", "returnStreamResponse", "bidirectionalStream"];
         for (const method of grpcMethods) {
             const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-            GrpcMethod("MessageService", method)(constructor.prototype[method], method, descriptor);
+            GrpcMethod("GrpcMessageService", method)(constructor.prototype[method], method, descriptor);
         }
     };
 }
 
-export const MESSAGE_SERVICE_NAME = "MessageService";
+export const MESSAGE_SERVICE_NAME = "GrpcMessageService";

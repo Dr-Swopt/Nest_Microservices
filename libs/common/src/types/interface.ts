@@ -1,6 +1,3 @@
-/* eslint-disable prettier/prettier */
-
-/* eslint-disable prettier/prettier */
 export interface Message {
     id: string;
     payload: any;

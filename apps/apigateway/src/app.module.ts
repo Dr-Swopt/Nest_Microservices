@@ -1,13 +1,10 @@
-/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
+import { GrpcClientModule } from './grpc/grpc.module';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 @Module({
-  imports: [
-
-  ],
+  imports: [GrpcClientModule],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [],
 })
 export class AppModule {}

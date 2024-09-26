@@ -2,22 +2,18 @@ syntax = "proto3";
 
 package message;
 
-service MessageService {
-  rpc check (Check) returns (Check) {}
-  rpc stream (StreamRequest) returns (stream StreamResponse) {}
-  rpc HandleMessage (StreamRequest) returns (stream StreamResponse) {}
+service GrpcMessageService {
+  rpc returnResponse (Request) returns (Response) {}
+  rpc returnStreamResponse (Request) returns (stream Response) {}
+  rpc bidirectionalStream(stream Request) returns (stream Response) {}
 }
 
-message Check {
-  string message = 1;
+message Request {
+    string id = 1;
+    string message = 2;
 }
 
-message StreamRequest {
-  string id = 1;
-  string message = 2;
-}
-
-message StreamResponse {
+message Response {
   string id = 1;
   string message = 2;
 }

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { TcpModule } from './../src/tcp.module';
+import { TcpModule } from '../src/app.module';
 
 describe('TcpController (e2e)', () => {
   let app: INestApplication;

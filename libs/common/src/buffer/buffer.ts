@@ -1,6 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable prefer-const */
-/* eslint-disable prettier/prettier */
 import { BehaviorSubject, buffer, distinctUntilChanged, from, Observable, Subject } from "rxjs";
 import { v4 as uuidV4 } from 'uuid';
 import { WrappedMessage } from "../types";

@@ -1,27 +1,16 @@
-/* eslint-disable prefer-const */
-/* eslint-disable prettier/prettier */
-import { Check, StreamRequest, StreamResponse } from '@app/common';
+import { Request, Response } from '@app/common';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class MessageService implements OnModuleInit {
-  private logger = new Logger(`MessageService`)
+export class AppService implements OnModuleInit {
+  private logger = new Logger(`GRPC-MessageService`)
 
   constructor() { }
 
-  onModuleInit() {
-  }
+  onModuleInit() { }
 
-  check(check: Check): Check {
-    this.logger.log(`Received check request: ${check.message}`)
-    let response: Check = {
-      message: `I am the main GRPC publisher!`
-    }
-    return response
-  }
-
-  stream(request: StreamRequest): Observable<StreamResponse> {
+  returnStream(request: Request): Observable<Response> {
     return new Observable((observer => {
       this.logger.log(`Received ${request.id}:: Preparing && Returning stream for client...`)
       let count = 0

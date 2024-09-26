@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable prefer-const */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
@@ -17,7 +15,7 @@ async function bootstrap() {
       package: MESSAGE_PACKAGE_NAME,
       protoPath: join(__dirname, '../message.proto'),
       url: `localhost:4000`
-    },
+    }
   }
   const app = await NestFactory.create(AppModule)
   app.connectMicroservice<MicroserviceOptions>(configurations) // used for the case to cater for multiple microservice
